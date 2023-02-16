@@ -5,6 +5,10 @@ const margForm = document.querySelector('form')
 const submitComment = document.getElementById('comment-form')
 const commentStory = document.querySelector('#comment-story')
 const addButton = document.getElementById('add-new-marg')
+const plusButton = document.getElementById('marg-button')
+const ingredientsDiv = document.getElementById('ingredients-div')
+
+let ingredientCount = 0
 let addMarg = false
 
 fetch("http://localhost:3000/drinks")
@@ -63,7 +67,9 @@ renderDetails = (drinkObj) => {
 }
 
 margForm.addEventListener('submit', (e) => {
-e.preventDefault()
+    e.preventDefault()
+
+
 
     const newDrinkObj = {
         strDrink: e.target.name.value,
@@ -73,14 +79,14 @@ e.preventDefault()
         strIngredients: (e.target.ingredients.value).split(",")
     }
 
-    fetch("http://localhost:3000/drinks", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(newDrinkObj),
-    })
+    // fetch("http://localhost:3000/drinks", {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json'
+    //     },
+    //     body: JSON.stringify(newDrinkObj),
+    // })
 
     renderDrinks(newDrinkObj)
     margForm.reset()
@@ -115,3 +121,14 @@ submitComment.addEventListener('submit', (e) => {
     submitComment.reset()
 })
 
+plusButton.addEventListener('click', () => {
+
+    if (ingredientCount < 10) {
+        const input = document.createElement('input')
+        input.type = 'text'
+        input.placeholder = "Ingredient"
+        input.className = 'ingredients'
+        ingredientsDiv.append(input)
+        ingredientCount++
+    }
+})
